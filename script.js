@@ -1,28 +1,49 @@
-let myLibrary = ['The Hobbit', 'Lord of the Rings', 'Song of Ice and Fire'];
-// let myLibrary = [];
+const theHobbit = new Book('The Hobbit', 'JRR Tolkein', '256');
+const lotr = new Book('The Lord of the Rings', 'JRR Tolkein', '2561');
+
+let myLibrary = [theHobbit, lotr];
 
 // Book constructor
-function Book(title, author, pages, read) {
+function Book(title, author, pages) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.read = read;
+}
+
+const bookContainer = document.getElementById("books");
+
+function printInfo(title, author, pages) {
+    const newDiv = document.createElement('div');
+    newDiv.classList.add('book-card');
+    bookContainer.appendChild(newDiv);
+
+    const bookTitle = document.createElement('h2');
+    bookTitle.textContent = title;
+
+    const bookAuthor = document.createElement('p');
+    bookAuthor.textContent = author;
+
+    const bookPages = document.createElement('p');
+    bookPages.textContent = pages + " pages";
+
+    newDiv.appendChild(bookTitle);
+    newDiv.appendChild(bookAuthor);
+    newDiv.appendChild(bookPages);
 }
 
 // Loop through array and display each book on the page
 function displayBooks() {
-    let str = '<ul>';
-    myLibrary.forEach(function (Book) {
-        str += '<li>' + Book + '</li>';
-    })
-    str += '</ul>';
-    document.getElementById("books").innerHTML = str;
+    bookContainer.innerHTML = '';
+    myLibrary.forEach(book => {
+        printInfo(book.title, book.author, book.pages);
+    });
+    
 }
 
 displayBooks();
 
 function grabFormData(event) {
-    let newBook = new Book(title.value, author.value, pages.value, read.value);
+    let newBook = new Book(title.value, author.value, pages.value);
 
     console.log(myLibrary);
     addBookToLibrary(newBook);
@@ -39,10 +60,7 @@ function addBookToLibrary(newBook) {
 let submitBtn = document.querySelector('#submit');
 submitBtn.addEventListener('click', grabFormData);
 
-// SUBMITING NOT WORKING YET REEEEE
-
 console.log(myLibrary);
-
 
 
 // ///////////////////////////////////
@@ -73,7 +91,6 @@ function closeModal(modal) {
     modal.classList.remove('active');
     overlay.classList.remove('active');
 }
-
 
 
 
