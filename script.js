@@ -1,16 +1,25 @@
-const theHobbit = new Book('The Hobbit', 'JRR Tolkein', '256');
-const lotr = new Book('The Lord of the Rings', 'JRR Tolkein', '2561');
-const nameOfWind = new Book('The Name of Wind', 'Rothfuss', '12345145');
+const theHobbit = new Book('The Hobbit', 'JRR Tolkein', '256', 0, false);
+const lotr = new Book('The Lord of the Rings', 'JRR Tolkein', '2561', 1, true);
+const nameOfWind = new Book('The Name of Wind', 'Rothfuss', '12345145', 2, false);
 
 let myLibrary = [theHobbit, lotr, nameOfWind];
 
 // Book constructor
-function Book(title, author, pages, id) {
+function Book(title, author, pages, id, status) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.id = id;
+    this.status = Boolean(status);
 }
+
+Book.prototype.read = function () {
+    this.status = true;
+}
+Book.prototype.unread = function () {
+    this.status = false;
+}
+
 
 // store books div
 const bookContainer = document.getElementById("books");
@@ -43,10 +52,67 @@ function printInfo(title, author, pages, id) {
         displayBooks();
     })
 
+    // add checkbox that shows read status
+    const addP = document.createElement('p');
+    let readStatusLabel = document.createElement('label');
+    readStatusLabel.textContent = "Read";
+    readStatusLabel.htmlFor = "read";
+
+    const readStatus = document.createElement('input');
+    readStatus.type = "checkbox";
+    readStatus.id = "read-check";
+    readStatus.name = "read";
+    readStatus.disabled = true;
+
+    const readBtn = document.createElement('button');
+    readBtn.classList.add('read-btn');
+    readBtn.textContent = 'Read';
+
+    // store status from library array
+    let currentStatus = myLibrary[id].status;
+    // Initial check if item is read or unread
+    if (currentStatus === true) {
+        hasRead();
+    } else {
+        hasntRead();
+    }
+
+    // if "read" add 'checked' attribute to input tag
+    // if "unread" remove any 'checked' attribute
+
+    // updates read status
+    function hasRead() {
+        readStatus.checked = true;
+        readStatusLabel.textContent = 'Read';
+        currentStatus = !currentStatus;
+    }
+    function hasntRead() {
+        readStatus.checked = false;
+        readStatusLabel.textContent = 'Unread';
+        currentStatus = !currentStatus;
+    }
+
+    // Read btn
+    readBtn.addEventListener('click', () => {
+        if (currentStatus === true) {
+            hasRead();
+            myLibrary[id].read();
+            console.log(myLibrary[id].status);
+        } else {
+            hasntRead();
+            myLibrary[id].unread();
+            console.log(myLibrary[id].status);
+        }
+    })
+
     newDiv.appendChild(bookTitle);
     newDiv.appendChild(bookAuthor);
     newDiv.appendChild(bookPages);
+    newDiv.appendChild(addP);
+    addP.appendChild(readStatusLabel);
+    addP.appendChild(readStatus);
     newDiv.appendChild(removeBtn);
+    newDiv.appendChild(readBtn);
 }
 
 // updates index no. of each book in myLibrary array
@@ -71,8 +137,37 @@ function displayBooks() {
 
 displayBooks();
 
+// Grab data from modal form
 function grabFormData(event) {
-    let newBook = new Book(title.value, author.value, pages.value);
+    let newBook = new Book(title.value, author.value, pages.value, status);
+
+    // ///////////////////////////////////////////////////
+    // Clicking the read input on the form isnt currently adding 'checked' attribute to html input tag
+    // ///////////////////////////////////////////////////
+    // Does it need a different id to when it's displayed on the cards despite being the same?
+    //////////////////////////////////////////////////////
+    
+    let readCheck = document.getElementById('read-check');
+
+    readCheck.addEventListener('click', function () {
+        readCheck.checked = true;
+
+        if (this.checked) {
+            console.log("Checkbox is checked..");
+        } else {
+            console.log("Checkbox is not checked..");
+        }
+    });
+
+    
+    if (readCheck.checked) {
+        console.log('checked');
+        status = newBook.read();
+    }
+    else {
+        console.log('not checked');
+        status = newBook.unread();
+    }
 
     //console.log(myLibrary);
     addBookToLibrary(newBook);
