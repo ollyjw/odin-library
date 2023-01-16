@@ -1,8 +1,9 @@
-const theHobbit = new Book('The Hobbit', 'JRR Tolkein', '256', 0, false);
-const lotr = new Book('The Lord of the Rings', 'JRR Tolkein', '2561', 1, true);
-const nameOfWind = new Book('The Name of Wind', 'Rothfuss', '12345145', 2, false);
+// const theHobbit = new Book('The Hobbit', 'JRR Tolkein', '256', 0, false);
+// const lotr = new Book('The Lord of the Rings', 'JRR Tolkein', '2561', 1, true);
+// const nameOfWind = new Book('The Name of Wind', 'Rothfuss', '12345145', 2, false);
 
-let myLibrary = [theHobbit, lotr, nameOfWind];
+// let myLibrary = [theHobbit, lotr, nameOfWind];
+let myLibrary = [];
 
 // Book constructor
 function Book(title, author, pages, id, status) {
@@ -132,7 +133,6 @@ function displayBooks() {
     myLibrary.forEach(book => {
         printInfo(book.title, book.author, book.pages, book.id);
     });
-    //updateIndex();
 }
 
 displayBooks();
@@ -140,25 +140,8 @@ displayBooks();
 // Grab data from modal form
 function grabFormData(event) {
     let newBook = new Book(title.value, author.value, pages.value, status);
-
-    // ///////////////////////////////////////////////////
-    // Clicking the read input on the form isnt currently adding 'checked' attribute to html input tag
-    // ///////////////////////////////////////////////////
-    // Does it need a different id to when it's displayed on the cards despite being the same?
-    //////////////////////////////////////////////////////
     
-    let readCheck = document.getElementById('read-check');
-
-    readCheck.addEventListener('click', function () {
-        readCheck.checked = true;
-
-        if (this.checked) {
-            console.log("Checkbox is checked..");
-        } else {
-            console.log("Checkbox is not checked..");
-        }
-    });
-
+    let readCheck = document.getElementById('read-status');
     
     if (readCheck.checked) {
         console.log('checked');
@@ -169,7 +152,6 @@ function grabFormData(event) {
         status = newBook.unread();
     }
 
-    //console.log(myLibrary);
     addBookToLibrary(newBook);
     displayBooks();
 
