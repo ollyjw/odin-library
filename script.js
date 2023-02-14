@@ -5,13 +5,23 @@
 // let myLibrary = [theHobbit, lotr, nameOfWind];
 let myLibrary = [];
 
-// Book constructor
-function Book(title, author, pages, id, status) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.id = id;
-    this.status = Boolean(status);
+// // Book constructor
+// function Book(title, author, pages, id, status) {
+//     this.title = title;
+//     this.author = author;
+//     this.pages = pages;
+//     this.id = id;
+//     this.status = Boolean(status);
+// }
+
+class Book {
+    constructor(title, author, pages, id, status) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.id = id;
+        this.status = Boolean(status);
+    }
 }
 
 Book.prototype.read = function () {
