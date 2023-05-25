@@ -137,10 +137,12 @@ function displayBooks() {
 
 displayBooks();
 
-// Grab data from modal form
-function grabFormData(event) {
+function isInputValid() {
+    const titleInput = document.getElementById("title");
+    const authorInput = document.getElementById("author");
+    const pagesInput = document.getElementById("pages");    
     let newBook = new Book(title.value, author.value, pages.value, status);
-    
+
     let readCheck = document.getElementById('read-status');
     
     if (readCheck.checked) {
@@ -152,11 +154,27 @@ function grabFormData(event) {
         status = newBook.unread();
     }
 
-    addBookToLibrary(newBook);
-    displayBooks();
+    // if inputs aren't valid show validation message
+    if (!titleInput.checkValidity() || !authorInput.checkValidity() || !pagesInput.checkValidity()) {
+        document.getElementById("title-validity").innerHTML = titleInput.validationMessage;
 
+        document.getElementById("author-validity").innerHTML = authorInput.validationMessage;
+
+        document.getElementById("pages-validity").innerHTML = pagesInput.validationMessage;
+    }
+
+    else {
+        addBookToLibrary(newBook);
+        displayBooks();
+    }    
+}
+
+// Grab data from modal form
+function grabFormData(event) {  
     // submit input tries to send data to a server by default
     event.preventDefault();
+
+    isInputValid();        
 }
 
 // Push new book entries to the library array

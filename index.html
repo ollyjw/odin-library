@@ -18,15 +18,18 @@
         <form action="" id="">
             <div class="row">
                 <!-- <label for="title">Title</label> -->
-                <input type="text" name="title" id="title" placeholder="Title">
+                <p id="title-validity"></p>
+                <input type="text" name="title" id="title" placeholder="Title" required>                
             </div>
             <div class="row">
                 <!-- <label for="author">Author</label> -->
-                <input type="text" name="author" id="author" placeholder="Author">
+                <p id="author-validity"></p>
+                <input type="text" name="author" id="author" placeholder="Author" required>
             </div>
             <div class="row">
                 <!-- <label for="pages">Number of pages</label> -->
-                <input type="number" name="pages" id="pages" placeholder="Number of pages">
+                <p id="pages-validity"></p>
+                <input type="number" name="pages" id="pages" placeholder="Number of pages" required>
             </div>
             <div class="row">
                 <label for="read">Read?  <input type="checkbox" name="read" id="read-status"></label>
